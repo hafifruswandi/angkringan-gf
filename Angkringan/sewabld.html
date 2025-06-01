@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sewa Billiard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      align-items: center;
+    }
+    .container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    h1 {
+      text-align: center;
+      color: #3498db;
+      margin-bottom: 25px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+    select, input[type=number] {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      border: 1.5px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+    select:focus, input[type=number]:focus {
+      border-color: #3498db;
+      outline: none;
+    }
+    button {
+      background-color: #1abc9c;
+      color: #222;
+      font-weight: 700;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #16a085;
+    }
+    .message {
+      margin-top: 15px;
+      font-weight: 600;
+      color: green;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Sewa Billiard</h1>
+    <form id="sewaForm">
+      <label for="meja">Pilih Jenis Meja:</label>
+      <select id="meja" required>
+        <option value="" disabled selected>-- Pilih Meja --</option>
+        <option value="Meja Billiard Standard">Meja Billiard Standard</option>
+        <option value="Meja Billiard Deluxe">Meja Billiard Deluxe</option>
+      </select>
+
+      <label for="durasi">Durasi Sewa (jam):</label>
+      <input type="number" id="durasi" min="1" max="8" value="1" required />
+
+      <button type="submit">Sewa Sekarang</button>
+    </form>
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('sewaForm');
+    const messageEl = document.getElementById('message');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const meja = form.meja.value;
+      const durasi = form.durasi.value;
+
+      if (!meja || durasi < 1) {
+        messageEl.style.color = 'red';
+        messageEl.textContent = 'Mohon pilih jenis meja dan durasi sewa yang valid.';
+        return;
+      }
+
+      messageEl.style.color = 'green';
+      messageEl.textContent = `Terima kasih! Anda telah menyewa ${meja} selama ${durasi} jam.`;
+
+      form.reset();
+      form.durasi.value = 1;
+    });
+  </script>
+</body>
+</html>

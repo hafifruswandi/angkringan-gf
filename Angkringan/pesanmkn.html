@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pesan Makanan & Minuman</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      align-items: center;
+    }
+    .container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    h1 {
+      text-align: center;
+      color: #3498db;
+      margin-bottom: 25px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+    select, input[type=number] {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      border: 1.5px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+    select:focus, input[type=number]:focus {
+      border-color: #3498db;
+      outline: none;
+    }
+    button {
+      background-color: #1abc9c;
+      color: #222;
+      font-weight: 700;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #16a085;
+    }
+    .message {
+      margin-top: 15px;
+      font-weight: 600;
+      color: green;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Pesan Makanan & Minuman</h1>
+    <form id="orderForm">
+      <label for="menu">Pilih Menu:</label>
+      <select id="menu" required>
+        <option value="" disabled selected>-- Pilih Menu --</option>
+        <option value="Nasi Goreng">Nasi Goreng</option>
+        <option value="Mie Goreng & Rebus">Mie Goreng & Rebus</option>
+        <option value="Kwetiaw">Kwetiaw</option>
+        <option value="Bakar-Bakaran">Bakar-Bakaran</option>
+        <option value="Es Teh Manis">Es Teh Manis</option>
+        <option value="Aneka Jus">Aneka Jus</option>
+
+      </select>
+
+      <label for="jumlah">Jumlah Pesan:</label>
+      <input type="number" id="jumlah" min="1" value="1" required />
+
+      <button type="submit">Pesan Sekarang</button>
+    </form>
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('orderForm');
+    const messageEl = document.getElementById('message');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const menu = form.menu.value;
+      const jumlah = form.jumlah.value;
+
+      if (!menu || jumlah < 1) {
+        messageEl.style.color = 'red';
+        messageEl.textContent = 'Mohon pilih menu dan masukkan jumlah yang valid.';
+        return;
+      }
+
+      // Simulasi proses pesan (bisa dikembangkan untuk simpan ke server atau localStorage)
+      messageEl.style.color = 'green';
+      messageEl.textContent = `Terima kasih! Pesanan ${jumlah} x ${menu} berhasil diterima.`;
+
+      // Reset form setelah submit
+      form.reset();
+      form.jumlah.value = 1;
+    });
+  </script>
+</body>
+</html>

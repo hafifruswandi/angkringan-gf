@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Angkringan & Billiard GoFriend</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f3f5;
+      color: #222;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: linear-gradient(135deg, #2c3e50, #3498db);
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    header nav a {
+      color: white;
+      text-decoration: none;
+      margin-inline: 160px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    header nav a:hover {
+      color: #f1c40f;
+    }
+    #logoutBtn {
+      background: #e74c3c;
+      border: none;
+      padding: 6px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+    }
+    #logoutBtn:hover {
+      background: #c0392b;
+    }
+    #logoutBtn svg {
+      display: block;
+      stroke: white;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    main {
+      flex-grow: 1;
+      max-width: 960px;
+      margin: 20px auto;
+      padding: 0 20px 40px;
+    }
+    h2 {
+      margin-bottom: 10px;
+      color: #333;
+      border-bottom: 3px solid #265777;
+      padding-bottom: 10px;
+      font-weight: 700;
+    }
+    section {
+      margin-bottom: 60px;
+    }
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      width: 250px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    }
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+    .card-content {
+      padding: 15px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-content h4 {
+      margin: 0 0 8px;
+      color: #2c3e50;
+    }
+    .card-content p {
+      flex-grow: 1;
+      font-size: 14px;
+      color: #555;
+      margin: 0 0 12px;
+    }
+    .btn-pesan {
+      padding: 10px;
+      border: none;
+      background-color: #1abc9c;
+      color: #222;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .btn-pesan:hover {
+      background-color: #16a085;
+    }
+    .btn-pesan-full {
+      margin: 60px auto 0;
+      display: block;
+      padding: 14px 30px;
+      background-color: #1abc9c;
+      color: #222;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 220px;
+      transition: background-color 0.3s ease;
+    }
+    .btn-pesan-full:hover {
+      background-color: #16a085;
+    }
+    .slider {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      height: 250px;
+      margin: 0 auto 20px;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.15);
+      background: #fff;
+    }
+
+    .slider-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 40px;
+    font-weight: 700;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+    padding: 8px 16px;
+    border-radius: 8px;
+    z-index: 10;
+    user-select: none;
+    pointer-events: none;
+    text-align: center;
+    }
+
+    .slides {
+      display: flex;
+      transition: transform 0.4s ease-in-out;
+      height: 100%;
+    }
+    .slide {
+      min-width: 100%;
+      height: 100%;
+      user-select: none;
+      position: relative;
+    }
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.4);
+      border: none;
+      color: white;
+      font-size: 24px;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 50%;
+      user-select: none;
+      transition: background-color 0.3s ease;
+      z-index: 11;
+    }
+    .slider-btn:hover {
+      background: rgba(0,0,0,0.7);
+    }
+    #prevBtn {
+      left: 15px;
+    }
+    #nextBtn {
+      right: 15px;
+    }
+    @media(max-width: 600px) {
+      .card {
+        width: 100%;
+      }
+      header {
+        justify-content: center;
+        gap: 10px;
+      }
+      header nav a {
+        margin-right: 10px;
+      }
+      #logoutBtn {
+        margin: 10px 0 0;
+      }
+      .slider {
+        height: 180px;
+      }
+      .slider-text {
+        font-size: 18px;
+        padding: 6px 12px;
+      }
+    }
+
+    @media (max-width: 900px) {
+  header nav a {
+    margin-inline: 40px;
+  }
+  .slider {
+    height: 200px;
+  }
+  .slider-text {
+    font-size: 24px;
+  }
+  .card {
+    width: 45%;
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    width: 100%;
+  }
+  header {
+    flex-direction: column;
+    align-items: center;
+  }
+  header nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  header nav a {
+    margin: 5px 10px;
+  }
+  #logoutBtn {
+    margin-top: 10px;
+  }
+  .slider {
+    height: 180px;
+  }
+  .slider-text {
+    font-size: 18px;
+    padding: 6px 12px;
+  }
+  .btn-pesan-full {
+    width: 100%;
+    max-width: 220px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="#pesan-makanan">Makanan & Minuman</a>
+      <a href="#sewa-billiard">Billiard</a>
+      <a href="#tentang-kami">Tentang Kami</a>
+    </nav>
+    <button id="logoutBtn" aria-label="Logout" title="Logout">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+        <polyline points="16 17 21 12 16 7" />
+        <line x1="21" y1="12" x2="9" y2="12" />
+      </svg>
+    </button>
+  </header>
+
+  <main>
+    <section id="pesan-makanan">
+      <div class="slider">
+        <div class="slider-text">ANGKRINGAN GOFRIEND</div>
+        <button class="slider-btn" id="prevBtn">&#10094;</button>
+        <div class="slides">
+          <div class="slide"><img src="assets/angkringan.jpg" alt="Es Teh Manis" /></div>
+          <div class="slide"><img src="assets/billiard.jpg" alt="Nasi Goreng" /></div>
+          <div class="slide"><img src="assets/angkringan2.jpg" alt="Minuman Segar" /></div>
+        </div>
+        <button class="slider-btn" id="nextBtn">&#10095;</button>
+      </div>
+
+      <h2>Makanan & Minuman</h2>
+      <div class="card-container">
+        <div class="card">
+          <img src="assets/nasigoreng.jpg" alt="Nasi Goreng" />
+          <div class="card-content">
+            <h4>Nasi Goreng</h4>
+            <p>-</p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="assets/miegoreng.jpg" alt="Mie Goreng & Rebus" />
+          <div class="card-content">
+            <h4>Mie Goreng & Rebus</h4>
+            <p>-</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="assets/kwetiaw.jpg" alt="Kwetiaw" />
+          <div class="card-content">
+            <h4>Kwetiaw</h4>
+            <p>-</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="assets/esteh.jpg" alt="Es Teh Manis" />
+          <div class="card-content">
+            <h4>Es Teh Manis</h4>
+            <p>-</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="assets/bakaran.jpg" alt="Bakaran" />
+          <div class="card-content">
+            <h4>Bakar-Bakaran</h4>
+            <p>-</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="assets/jus.jpg" alt="Aneka Jus" />
+          <div class="card-content">
+            <h4>Aneka Jus</h4>
+            <p>-</p>
+          </div>
+        </div>
+
+      </div>
+      <button id="pesanMakananBtn" class="btn-pesan-full">Pesan Sekarang!</button>
+    </section>
+
+    <section id="sewa-billiard">
+      <h2>Billiard</h2>
+      <div class="card-container">
+        <div class="card">
+          <img src="assets/mejastandar.jpg" alt="Meja Billiard Standard" />
+          <div class="card-content">
+            <h4>Meja Billiard Standard</h4>
+            <p>-</p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="assets/mejadeluxe.jpg" alt="Meja Billiard Deluxe" />
+          <div class="card-content">
+            <h4>Meja Billiard Deluxe</h4>
+            <p>-</p>
+          </div>
+        </div>
+      </div>
+      <button id="sewaBilliardBtn" class="btn-pesan-full">Sewa Sekarang!</button>
+    </section>
+
+    <section id="tentang-kami">
+      <h2>Tentang Kami</h2>
+      <p style="text-align: justify;">
+        Angkringan GoFriend didirikan pada tahun 2022 dengan visi
+        menghadirkan pengalaman makan yang berbeda dan lengkap. Kami menggabungkan kelezatan
+        makanan tradisional khas angkringan seperti nasi kucing, sate usus, gorengan,
+        dan aneka minuman hangatdengan fasilitas billiard terbaik yang dapat dinikmati oleh semua kalangan.
+        Tempat kami dirancang untuk memberikan kenyamanan dan kehangatan, cocok untuk bersantai,
+        berkumpul bersama keluarga, teman, atau rekan kerja setelah seharian beraktivitas.
+        Selain menawarkan menu yang otentik dan harga yang terjangkau,
+        Angkringan GoFriend juga fokus pada pelayanan terbaik dengan staf yang ramah dan profesional.
+        Kami berusaha menciptakan suasana yang ramah dan menyenangkan agar setiap pengunjung merasa
+        seperti di rumah sendiri. Dengan perpaduan konsep tradisional dan hiburan modern,
+        Angkringan GoFriend hadir sebagai destinasi favorit di kota untuk menikmati santapan lezat
+        sekaligus hiburan billiard yang seru. Kami percaya bahwa pengalaman makan yang baik bukan hanya
+        soal rasa, tapi juga suasana dan interaksi yang terjalin di dalamnya.
+
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const loggedUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    if (!loggedUser || !loggedUser.username) {
+      alert('Anda harus login terlebih dahulu!');
+      window.location.href = 'index.html';
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      if (confirm('Apakah yakin ingin logout?')) {
+        localStorage.removeItem('loggedInUser');
+        window.location.href = 'index.html';
+      }
+    });
+
+    document.getElementById('pesanMakananBtn').addEventListener('click', () => {
+      window.location.href = 'pesanmkn.html?category=makanan';
+    });
+    document.getElementById('sewaBilliardBtn').addEventListener('click', () => {
+      window.location.href = 'sewabld.html?category=billiard';
+    });
+
+    const slides = document.querySelector('.slides');
+    const slideCount = document.querySelectorAll('.slide').length;
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let index = 0;
+
+    function showSlide(i) {
+      index = (i + slideCount) % slideCount;
+      slides.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    prevBtn.addEventListener('click', () => showSlide(index - 1));
+    nextBtn.addEventListener('click', () => showSlide(index + 1));
+    setInterval(() => showSlide(index + 1), 5000);
+    showSlide(0);
+  </script>
+</body>
+</html>
